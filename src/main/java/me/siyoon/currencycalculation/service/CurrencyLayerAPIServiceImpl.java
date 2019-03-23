@@ -17,10 +17,7 @@ public class CurrencyLayerAPIServiceImpl implements CurrencyLayerAPIService {
     @Value("${currencyLayer.source}")
     private String source;
     @Value("${currencyLayer.currencies}")
-    private String currencies;
-    // TODO : 이거 반영할지 안할지 결정
-//    @Value("${currencyLayer.currencyConversion}")
-//    private boolean currencyConversion;
+    private String currencies;ㅊ
     @Value("${currencyLayer.updateFrequencySec}")
     private int updateFrequencySec;
 

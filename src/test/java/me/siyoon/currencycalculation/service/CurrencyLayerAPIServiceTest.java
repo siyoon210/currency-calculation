@@ -1,7 +1,6 @@
 package me.siyoon.currencycalculation.service;
 
 import me.siyoon.currencycalculation.dto.CurrencyInfo;
-import org.apache.tomcat.jni.Time;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
