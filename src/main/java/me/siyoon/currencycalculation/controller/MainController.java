@@ -1,12 +1,19 @@
 package me.siyoon.currencycalculation.controller;
 
+import lombok.RequiredArgsConstructor;
+import me.siyoon.currencycalculation.service.CurrencyLayerAPIService;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
 
-@RestController
+@Controller
+@RequiredArgsConstructor
 public class MainController {
-    @GetMapping("/hello")
-    private String hello() {
-        return "HelloWorld~~";
+    private final CurrencyLayerAPIService currencyLayerAPIService;
+
+    @GetMapping("/")
+    private String hello(Model model) {
+        model.addAttribute("currencyInfo", currencyLayerAPIService.getCurrencyInfo());
+        return "index";
     }
 }
