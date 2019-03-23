@@ -40,7 +40,7 @@ public class CurrencyLayerAPIServiceImpl implements CurrencyLayerAPIService {
                     CurrencyInfo.class);
         }
 
-        return this.currencyInfo;
+        return currencyInfo;
     }
 
     private boolean isOutdatedCurrencyInfo() {
