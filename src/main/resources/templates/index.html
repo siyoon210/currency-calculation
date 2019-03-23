@@ -31,17 +31,18 @@
 
     <div>
         <lable>송금액:</lable>
-        <input type="number" id="sendingMoney">
+        <input type="number" id="sendingAmount">
         <span>USD 혹은 AUD</span>
     </div>
 
     <div>
-        <button type="submit">Submit</button>
+        <button type="button" onclick="getReceivingAmount()">Submit</button>
     </div>
 
     <div>
         <!--계산된 수취금액 표기자리-->
-        <p></p>
+        <p id="receivingAmount"></p>
+        <p id="errMessage"></p>
     </div>
 </form>
 </body>
@@ -55,10 +56,33 @@
             success: function (exchangeRate) {
                 $('#exchangeRate').text(exchangeRate + " " + receivingCountry + "/" + sendingCountry);
             },
-            error: function (request) {
+            error: function () {
                 alert("통신오류 메세지");
             }
         });
     });
+
+    function getReceivingAmount() {
+        var sendingCountry = $('#sendingCountry').val();
+        var receivingCountry = $('#receivingCountry').val();
+        var sendingAmount = $('#sendingAmount').val();
+
+        var receivingAmountElement = $('#receivingAmount');
+        var errMessageElement = $('#errMessage');
+        // var remittanceAmount = receivingAmountElement.val();
+        $.ajax({
+            url: "/api/receiving-amount?sendingCountry=" + sendingCountry
+                + "&receivingCountry=" + receivingCountry
+                + "&amount=" + sendingAmount,
+            type: "GET",
+            success: function (receivingAmount) {
+                $('#receivingAmount').text("수취금액은 " + receivingAmount + " " + receivingCountry + "/USD 입니다.");
+                $('#exchangeRate').text((receivingAmount/sendingAmount) + " " + receivingCountry + "/" + sendingCountry);
+            },
+            error: function () {
+                alert("통신오류 메세지");
+            }
+        });
+    }
 </script>
 </html>
