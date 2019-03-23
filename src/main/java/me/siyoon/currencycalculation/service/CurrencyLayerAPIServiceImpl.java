@@ -6,8 +6,10 @@ import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.concurrent.TimeUnit;
+
 @Service
-public class CurrencyLayerAPIServiceImpl implements CurrencyLayerAPIService{
+public class CurrencyLayerAPIServiceImpl implements CurrencyLayerAPIService {
     @Value("${currencyLayer.accessKey}")
     private String accessKey;
     @Value("${currencyLayer.endPointUrl}")
@@ -16,8 +18,9 @@ public class CurrencyLayerAPIServiceImpl implements CurrencyLayerAPIService{
     private String source;
     @Value("${currencyLayer.currencies}")
     private String currencies;
-    @Value("${currencyLayer.currencyConversion}")
-    private boolean currencyConversion;
+    // TODO : 이거 반영할지 안할지 결정
+//    @Value("${currencyLayer.currencyConversion}")
+//    private boolean currencyConversion;
     @Value("${currencyLayer.updateFrequencySec}")
     private int updateFrequencySec;
 
@@ -28,10 +31,24 @@ public class CurrencyLayerAPIServiceImpl implements CurrencyLayerAPIService{
         this.restTemplate = restTemplateBuilder.build();
     }
 
-    public CurrencyInfo getCurrencyInfo(){
-        this.currencyInfo = restTemplate.getForObject(
-                endPointUrl + "/live?access_key=" + accessKey + "&source=" + source + "&currencies=" + currencies,
-                CurrencyInfo.class);
-        return currencyInfo;
+    public CurrencyInfo getCurrencyInfo() {
+        if (isOutdatedCurrencyInfo()) {
+            currencyInfo = restTemplate.getForObject(
+                    endPointUrl + "/live?access_key=" + accessKey
+                            + "&source=" + source
+                            + "&currencies=" + currencies,
+                    CurrencyInfo.class);
+        }
+
+        return this.currencyInfo;
+    }
+
+    private boolean isOutdatedCurrencyInfo() {
+        if (currencyInfo == null) {
+            return true;
+        }
+
+        long currentTimeSec = TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis());
+        return currentTimeSec - currencyInfo.getTimestamp() > updateFrequencySec;
     }
 }
