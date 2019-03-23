@@ -18,6 +18,7 @@ public class CurrencyCalculationServiceImpl implements CurrencyCalculationServic
 
     @Override
     public Double getReceivingAmount(String sendingCountry, String receivingCountry, double amount) {
-        return null;
+        Double exchangeRate = this.getExchangeRate(sendingCountry, receivingCountry);
+        return exchangeRate * amount;
     }
 }

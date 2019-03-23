@@ -12,7 +12,7 @@ public class MainController {
     private final CurrencyCalculationService currencyCalculationService;
 
     @GetMapping("/")
-    private String hello(Model model) {
+    private String main(Model model) {
         model.addAttribute("defaultExchangeRate",
                 currencyCalculationService.getExchangeRate("USD","KRW"));
         return "index";

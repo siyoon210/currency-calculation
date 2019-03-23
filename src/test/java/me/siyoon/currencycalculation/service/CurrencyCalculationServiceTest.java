@@ -22,4 +22,14 @@ public class CurrencyCalculationServiceTest {
         CurrencyInfo currencyInfo = currencyInfoAPIService.getCurrencyInfo();
         Assert.assertEquals(currencyInfo.getQuotes().get("USDKRW"), exchangeRate);
     }
+
+    @Test
+    public void 수취금액_계산하기() {
+        String sendingCountry = "USD";
+        String receivingCountry = "KRW";
+        double amount = 10;
+        Double receivingAmount = currencyCalculationService.getReceivingAmount(sendingCountry, receivingCountry, amount);
+        double expectAmount = currencyCalculationService.getExchangeRate(sendingCountry, receivingCountry) * amount;
+        Assert.assertEquals(Double.valueOf(expectAmount), receivingAmount);
+    }
 }
