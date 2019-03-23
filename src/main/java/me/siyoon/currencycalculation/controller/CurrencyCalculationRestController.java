@@ -20,4 +20,11 @@ public class CurrencyCalculationRestController {
         return ResponseEntity.ok(exchangeRate);
     }
 
+    @GetMapping("/receiving-amount")
+    public ResponseEntity getReceivingAmount(@RequestParam String sendingCountry, @RequestParam String receivingCountry,
+    @RequestParam double amount) {
+        Double receivingAmount = currencyCalculationService.getReceivingAmount(sendingCountry, receivingCountry, amount);
+        return ResponseEntity.ok(receivingAmount);
+    }
+
 }
