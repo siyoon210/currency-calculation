@@ -10,9 +10,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class CurrencyLayerAPIServiceTest {
+public class CurrencyInfoAPIServiceTest {
     @Autowired
-    private CurrencyLayerAPIServiceImpl currencyLayerAPIService;
+    private CurrencyInfoAPIServiceImpl currencyLayerAPIService;
 
     @Test
     public void API_사용하여_환율정보_가져오기() {

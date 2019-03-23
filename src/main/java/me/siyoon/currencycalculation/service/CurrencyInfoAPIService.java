@@ -2,6 +2,6 @@ package me.siyoon.currencycalculation.service;
 
 import me.siyoon.currencycalculation.dto.CurrencyInfo;
 
-public interface CurrencyLayerAPIService {
+public interface CurrencyInfoAPIService {
     CurrencyInfo getCurrencyInfo();
 }

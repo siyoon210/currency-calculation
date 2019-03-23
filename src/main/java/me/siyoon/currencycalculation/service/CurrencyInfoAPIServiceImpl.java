@@ -9,7 +9,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.concurrent.TimeUnit;
 
 @Service
-public class CurrencyLayerAPIServiceImpl implements CurrencyLayerAPIService {
+public class CurrencyInfoAPIServiceImpl implements CurrencyInfoAPIService {
     @Value("${currencyLayer.accessKey}")
     private String accessKey;
     @Value("${currencyLayer.endPointUrl}")
@@ -24,7 +24,7 @@ public class CurrencyLayerAPIServiceImpl implements CurrencyLayerAPIService {
     private RestTemplate restTemplate;
     private CurrencyInfo currencyInfo;
 
-    public CurrencyLayerAPIServiceImpl(RestTemplateBuilder restTemplateBuilder) {
+    public CurrencyInfoAPIServiceImpl(RestTemplateBuilder restTemplateBuilder) {
         this.restTemplate = restTemplateBuilder.build();
     }
 
