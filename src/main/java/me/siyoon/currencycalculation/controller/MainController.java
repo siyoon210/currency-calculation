@@ -14,7 +14,7 @@ public class MainController {
     @GetMapping("/")
     private String main(Model model) {
         model.addAttribute("defaultExchangeRate",
-                currencyCalculationService.getExchangeRate("USD","KRW"));
+                currencyCalculationService.getExchangeRate("USD","KRW") + " KRW/USD");
         return "index";
     }
 }
