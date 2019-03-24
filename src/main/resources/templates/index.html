@@ -30,9 +30,9 @@
 </div>
 
 <div>
-    <lable>송금액:</lable>
+    <label>송금액:</label>
     <input type="number" id="sendingAmount">
-    <span>USD 혹은 AUD</span>
+    <span id="sendingAmountCurrency">USD</span>
 </div>
 
 <div>
@@ -47,14 +47,16 @@
 
 </body>
 <script>
-    $('#receivingCountry').change(function () {
+    $('select').change(function () {
         var sendingCountry = $('#sendingCountry').val();
-        var receivingCountry = $(this).val();
+        var receivingCountry = $('#receivingCountry').val();
+
         $.ajax({
             url: "/api/exchange-rate?sendingCountry=" + sendingCountry + "&receivingCountry=" + receivingCountry,
             type: "GET",
             success: function (exchangeRate) {
                 $('#exchangeRate').text(exchangeRate + " " + receivingCountry + "/" + sendingCountry);
+                $('#sendingAmountCurrency').text(sendingCountry);
             },
             error: function () {
                 alert("통신오류 메세지");
@@ -69,6 +71,7 @@
 
         var receivingAmountElement = $('#receivingAmount');
         var errMessageElement = $('#errMessage');
+
         $.ajax({
             url: "/api/receiving-amount?sendingCountry=" + sendingCountry
                 + "&receivingCountry=" + receivingCountry

@@ -16,6 +16,7 @@ public class CurrencyCalculationServiceImpl implements CurrencyCalculationServic
     @Override
     public Double getExchangeRate(String sendingCountry, String receivingCountry) {
         CurrencyInfo currencyInfo = currencyInfoAPIService.getCurrencyInfo();
+
         if (sendingCountry.equals(sourceCountry)) {
             return currencyInfo.getQuotes().get(sendingCountry + receivingCountry);
         } else {
