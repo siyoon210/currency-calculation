@@ -7,44 +7,44 @@
 </head>
 <body>
 <h1>환율 계산</h1>
-<form>
-    <div>
-        <label>송금국가:</label>
-        <select id="sendingCountry">
-            <option selected value="USD">미국(USD)</option>
-            <option value="AUD">호주(AUD)</option>
-        </select>
-    </div>
 
-    <div>
-        <label>수취국가:</label>
-        <select id="receivingCountry">
-            <option selected value="KRW">한국(KRW)</option>
-            <option value="JPY">일본(JPY)</option>
-            <option value="PHP">필리핀(PHP)</option>
-        </select>
-    </div>
+<div>
+    <label>송금국가:</label>
+    <select id="sendingCountry">
+        <option selected value="USD">미국(USD)</option>
+        <option value="AUD">호주(AUD)</option>
+    </select>
+</div>
 
-    <div>
-        <label>환율:<span id="exchangeRate" th:text="${defaultExchangeRate} + ' KRW/USD'"></span></label>
-    </div>
+<div>
+    <label>수취국가:</label>
+    <select id="receivingCountry">
+        <option selected value="KRW">한국(KRW)</option>
+        <option value="JPY">일본(JPY)</option>
+        <option value="PHP">필리핀(PHP)</option>
+    </select>
+</div>
 
-    <div>
-        <lable>송금액:</lable>
-        <input type="number" id="sendingAmount">
-        <span>USD 혹은 AUD</span>
-    </div>
+<div>
+    <label>환율:<span id="exchangeRate" th:text="${defaultExchangeRate} + ' KRW/USD'"></span></label>
+</div>
 
-    <div>
-        <button type="button" onclick="getReceivingAmount()">Submit</button>
-    </div>
+<div>
+    <lable>송금액:</lable>
+    <input type="number" id="sendingAmount">
+    <span>USD 혹은 AUD</span>
+</div>
 
-    <div>
-        <!--계산된 수취금액 표기자리-->
-        <p id="receivingAmount"></p>
-        <p id="errMessage"></p>
-    </div>
-</form>
+<div>
+    <button type="button" onclick="getReceivingAmount()">Submit</button>
+</div>
+
+<div>
+    <!--계산된 수취금액 표기자리-->
+    <p id="receivingAmount"></p>
+    <p id="errMessage"></p>
+</div>
+
 </body>
 <script>
     $('#receivingCountry').change(function () {
@@ -77,12 +77,18 @@
             type: "GET",
             success: function (receivingAmount) {
                 $('#receivingAmount').text("수취금액은 " + receivingAmount + " " + receivingCountry + "/USD 입니다.");
-                $('#exchangeRate').text((receivingAmount/sendingAmount) + " " + receivingCountry + "/" + sendingCountry);
+                $('#exchangeRate').text((receivingAmount / sendingAmount) + " " + receivingCountry + "/" + sendingCountry);
             },
             error: function () {
                 alert("통신오류 메세지");
             }
         });
     }
+
+    $('#sendingAmount').keydown(function (e) {
+        if (e.which === 13) {
+            getReceivingAmount();
+        }
+    });
 </script>
 </html>
