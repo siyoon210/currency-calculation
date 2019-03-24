@@ -24,6 +24,13 @@ public class CurrencyCalculationServiceTest {
     }
 
     @Test
+    public void 송금국가가_source_국가가_아닌경우_환율정보_가져오기() {
+        Double exchangeRate = currencyCalculationService.getExchangeRate("AUD", "KRW");
+        CurrencyInfo currencyInfo = currencyInfoAPIService.getCurrencyInfo();
+        Assert.assertEquals(Double.valueOf(currencyInfo.getQuotes().get("USDKRW") / currencyInfo.getQuotes().get("USDAUD")), exchangeRate);
+    }
+
+    @Test
     public void 수취금액_계산하기() {
         String sendingCountry = "USD";
         String receivingCountry = "KRW";
