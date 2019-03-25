@@ -77,9 +77,9 @@
                 + "&receivingCountry=" + receivingCountry
                 + "&amount=" + sendingAmount,
             type: "GET",
-            success: function (receivingAmount) {
-                $('#receivingAmount').text("수취금액은 " + receivingAmount + " " + receivingCountry + "/USD 입니다.");
-                $('#exchangeRate').text((receivingAmount / sendingAmount) + " " + receivingCountry + "/" + sendingCountry);
+            success: function (responseMap) {
+                $('#receivingAmount').text("수취금액은 " + responseMap.receivingAmount + " " + receivingCountry + "/USD 입니다.");
+                $('#exchangeRate').text(responseMap.exchangeRate + " " + receivingCountry + "/" + sendingCountry);
             },
             error: function () {
                 alert("통신오류 메세지");

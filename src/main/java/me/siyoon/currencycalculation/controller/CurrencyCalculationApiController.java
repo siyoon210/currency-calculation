@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor
@@ -24,8 +27,13 @@ public class CurrencyCalculationApiController {
     @GetMapping("/receiving-amount")
     public ResponseEntity getReceivingAmount(@RequestParam String sendingCountry, @RequestParam String receivingCountry,
     @RequestParam double amount) {
-        Double receivingAmount = currencyCalculationService.getReceivingAmount(sendingCountry, receivingCountry, amount);
-        return ResponseEntity.ok(NumberFormatUtil.convert(receivingAmount));
+        Map<String, String> responseMap = new HashMap<>();
+        Double exchangeRate = currencyCalculationService.getExchangeRate(sendingCountry, receivingCountry);
+        Double receivingAmount = exchangeRate * amount;
+
+        responseMap.put("exchangeRate", NumberFormatUtil.convert(exchangeRate));
+        responseMap.put("receivingAmount", NumberFormatUtil.convert(receivingAmount));
+        return ResponseEntity.ok(responseMap);
     }
 
 }
