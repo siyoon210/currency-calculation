@@ -24,10 +24,4 @@ public class CurrencyCalculationServiceImpl implements CurrencyCalculationServic
                     / currencyInfo.getQuotes().get(sourceCountry + sendingCountry);
         }
     }
-
-    @Override
-    public Double getReceivingAmount(String sendingCountry, String receivingCountry, double amount) {
-        Double exchangeRate = this.getExchangeRate(sendingCountry, receivingCountry);
-        return exchangeRate * amount;
-    }
 }
