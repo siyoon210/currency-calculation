@@ -39,10 +39,7 @@
     <button type="button" onclick="getReceivingAmount()">Submit</button>
 </div>
 
-<div>
-    <!--계산된 수취금액 표기자리-->
-    <p id="receivingAmount"></p>
-    <p id="errMessage"></p>
+<div id="submitResponse">
 </div>
 
 </body>
@@ -57,6 +54,7 @@
             success: function (exchangeRate) {
                 $('#exchangeRate').text(exchangeRate + " " + receivingCountry + "/" + sendingCountry);
                 $('#sendingAmountCurrency').text(sendingCountry);
+                $('#submitResponse').html("");
             },
             error: function () {
                 alert("통신오류 메세지");
@@ -64,13 +62,20 @@
         });
     });
 
+    function isInvalidInput() {
+        var amount = $('#sendingAmount').val();
+        return (amount.length <= 0 || amount < 0 || amount > 10000);
+    }
+
     function getReceivingAmount() {
         var sendingCountry = $('#sendingCountry').val();
         var receivingCountry = $('#receivingCountry').val();
         var sendingAmount = $('#sendingAmount').val();
 
-        var receivingAmountElement = $('#receivingAmount');
-        var errMessageElement = $('#errMessage');
+        if (isInvalidInput()) {
+            $('#submitResponse').html("<p style='color:red'>송금액이 바르지 않습니다</p>");
+            return;
+        }
 
         $.ajax({
             url: "/api/receiving-amount?sendingCountry=" + sendingCountry
@@ -78,7 +83,7 @@
                 + "&amount=" + sendingAmount,
             type: "GET",
             success: function (responseMap) {
-                $('#receivingAmount').text("수취금액은 " + responseMap.receivingAmount + " " + receivingCountry + "/USD 입니다.");
+                $('#submitResponse').html("<p>수취금액은 " + responseMap.receivingAmount + " " + receivingCountry + "/USD 입니다.</p>");
                 $('#exchangeRate').text(responseMap.exchangeRate + " " + receivingCountry + "/" + sendingCountry);
             },
             error: function () {
