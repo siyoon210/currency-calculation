@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <script src="webjars/jquery/3.3.1-2/jquery.min.js"></script>
+    <script src="/webjars/jquery/3.3.1-2/jquery.min.js"></script>
     <title>환율 계산기</title>
 </head>
 <body>
@@ -61,8 +61,12 @@
                 $('#sendingAmountCurrency').text(sendingCountry);
                 $('#submitResponse').html("");
             },
-            error: function () {
-                alert("통신오류 메세지");
+            error: function(jqXHR) {
+                if (jqXHR.status === 400) {
+                    alert("입력값이 올바르지 않습니다.");
+                } else if(jqXHR.status === 500) {
+                    alert("서버의 문제가 발생했습니다.");
+                }
             }
         });
     }
@@ -91,8 +95,12 @@
                 $('#submitResponse').html("<p>수취금액은 " + responseMap.receivingAmount + " " + receivingCountry + "/USD 입니다.</p>");
                 $('#exchangeRate').text(responseMap.exchangeRate + " " + receivingCountry + "/" + sendingCountry);
             },
-            error: function () {
-                alert("통신오류 메세지");
+            error: function(jqXHR) {
+                if (jqXHR.status === 400) {
+                    alert("입력값이 올바르지 않습니다.");
+                } else if(jqXHR.status === 500) {
+                    alert("서버의 문제가 발생했습니다.");
+                }
             }
         });
     }

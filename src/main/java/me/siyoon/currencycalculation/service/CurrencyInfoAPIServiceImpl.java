@@ -4,6 +4,7 @@ import me.siyoon.currencycalculation.dto.CurrencyInfo;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.concurrent.TimeUnit;
@@ -37,6 +38,8 @@ public class CurrencyInfoAPIServiceImpl implements CurrencyInfoAPIService {
                     CurrencyInfo.class);
         }
 
+        checkValidCurrencyInfo();
+
         return currencyInfo;
     }
 
@@ -47,5 +50,11 @@ public class CurrencyInfoAPIServiceImpl implements CurrencyInfoAPIService {
 
         long currentTimeSec = TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis());
         return currentTimeSec - currencyInfo.getTimestamp() > updateFrequencySec;
+    }
+
+    private void checkValidCurrencyInfo() {
+        if (currencyInfo == null || !currencyInfo.isSuccess()) {
+            throw new RestClientException("api 호출 실패");
+        }
     }
 }
