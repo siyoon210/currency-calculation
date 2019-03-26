@@ -26,7 +26,7 @@
 </div>
 
 <div>
-    <label>환율:<span id="exchangeRate" th:text="${defaultExchangeRate}"></span></label>
+    <label>환율:<span id="exchangeRate"></span></label>
 </div>
 
 <div>
@@ -44,7 +44,12 @@
 
 </body>
 <script>
-    $('select').change(function () {
+    $(window).on('load', getExchangeRate());
+    $('select').on('change', function() {
+        getExchangeRate();
+    });
+
+    function getExchangeRate() {
         var sendingCountry = $('#sendingCountry').val();
         var receivingCountry = $('#receivingCountry').val();
 
@@ -60,7 +65,7 @@
                 alert("통신오류 메세지");
             }
         });
-    });
+    }
 
     function isInvalidInput() {
         var amount = $('#sendingAmount').val();
