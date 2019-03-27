@@ -53,10 +53,11 @@ public class CurrencyInfoAPIServiceImpl implements CurrencyInfoAPIService {
     }
 
     private void checkCurrencyInfoValidation() {
-        if (currencyInfo == null || !currencyInfo.isSuccess()) {
-            if (currencyInfo == null) {
-                throw new RestClientException("currencyInfo null");
-            }
+        if (currencyInfo == null) {
+            throw new RestClientException("currencyInfo null");
+        }
+
+        if (!currencyInfo.isSuccess()) {
             throw new RestClientException("api 호출 실패 - "
                     + currencyInfo.getError().get("code") + " : "
                     + currencyInfo.getError().get("type"));
