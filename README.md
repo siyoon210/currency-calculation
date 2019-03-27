@@ -1,8 +1,6 @@
 # currency-calculation
-simple currency calculation application - 환율 계산
-
-## 시연 화면
-![Screenshot](./docs/Screenshot.jpg)
+simple currency calculation application - 환율 계산기 미니 프로젝트
+- java 8, spring boot 2.1.3, thymeleaf
 
 ## 설계 방향
 
@@ -15,3 +13,8 @@ simple currency calculation application - 환율 계산
    4. **추후에 외부 API를 다른 API로 변동하거나, 환율정보 계산을 담당하는 로직이 변동 될 수 있는 사항을 고려**하여 서비스를 둘로 나누었고 각 서비스들을 인터페이스를 통해 의존하게 하여 **결합도를 낮추는 방향**으로 설계 하였습니다. 
     
    5. 송금국가가 source로 사용된 USD가 아닌 다른 국가(AUD)의 통화인 경우에는 source를 변동하지 않고, 간단한 연산을 통해 해결하였습니다. 예를 들어, **KRW / AUD에 경우는 (KRW / USD)  / (AUD / USD)로 계산**하였습니다.
+   
+## 시연 화면
+![Screenshot](./docs/Screenshot.jpg)
+
+
