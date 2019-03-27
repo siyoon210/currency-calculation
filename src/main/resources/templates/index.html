@@ -117,7 +117,7 @@
             type: "GET",
             success: function (responseMap) {
                 $('#submitResponse').html("<div class=\"ui success message\">" +
-                    "<p>수취금액은 " + responseMap.receivingAmount + " " + receivingCountry + "/" + sendingCountry + " 입니다.</p>" +
+                    "<p>수취금액은 " + responseMap.receivingAmount + " " + receivingCountry + " 입니다.</p>" +
                     "</div>");
                 $('#exchangeRate').text(responseMap.exchangeRate + " " + receivingCountry + "/" + sendingCountry);
                 $('#submitResponse').attr('class', 'ui field form success');
