@@ -1,7 +1,7 @@
 package me.siyoon.currencycalculation.controller;
 
 import lombok.RequiredArgsConstructor;
-import me.siyoon.currencycalculation.dto.ExchangeRateInputDto;
+import me.siyoon.currencycalculation.dto.InputDto;
 import me.siyoon.currencycalculation.service.CurrencyCalculationService;
 import me.siyoon.currencycalculation.util.NumberFormatUtil;
 import org.springframework.http.ResponseEntity;
@@ -18,18 +18,19 @@ public class CurrencyCalculationApiController {
     private final CurrencyCalculationService currencyCalculationService;
 
     @GetMapping("/exchange-rate")
-    public ResponseEntity getExchangeRate(@Valid @ModelAttribute ExchangeRateInputDto exchangeRateInputDto) {
+    public ResponseEntity getExchangeRate(@Valid @ModelAttribute InputDto inputDto) {
         Double exchangeRate = currencyCalculationService
-                .getExchangeRate(exchangeRateInputDto.getSendingCountry(), exchangeRateInputDto.getReceivingCountry());
+                .getExchangeRate(inputDto.getSendingCountry(), inputDto.getReceivingCountry());
         return ResponseEntity.ok(NumberFormatUtil.convert(exchangeRate));
     }
 
     @GetMapping("/receiving-amount")
-    public ResponseEntity getReceivingAmount(@RequestParam String sendingCountry, @RequestParam String receivingCountry,
-    @RequestParam double amount) {
+    public ResponseEntity getReceivingAmount(@Valid @ModelAttribute InputDto inputDto) {
         Map<String, String> responseMap = new HashMap<>();
-        Double exchangeRate = currencyCalculationService.getExchangeRate(sendingCountry, receivingCountry);
-        Double receivingAmount = exchangeRate * amount;
+
+        Double exchangeRate = currencyCalculationService
+                .getExchangeRate(inputDto.getSendingCountry(), inputDto.getReceivingCountry());
+        Double receivingAmount = exchangeRate * inputDto.getAmount();
 
         responseMap.put("exchangeRate", NumberFormatUtil.convert(exchangeRate));
         responseMap.put("receivingAmount", NumberFormatUtil.convert(receivingAmount));

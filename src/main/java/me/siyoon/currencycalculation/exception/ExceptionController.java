@@ -13,12 +13,14 @@ import org.springframework.validation.BindException;
 @Slf4j
 public class ExceptionController {
     @ExceptionHandler(BindException.class)
-    public void handleBindExceptionException(BindException e) {
-        handleIllegalArgumentException(e);
+    public ResponseEntity handleBindExceptionException(BindException e) {
+        log.warn("BindException : " + e.getMessage());
+        return ResponseEntity.status(400).contentType(MediaType.APPLICATION_JSON_UTF8)
+                .body("{\"message\":" + e.getMessage() + "}");
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity handleIllegalArgumentException(Exception e) {
+    public ResponseEntity handleIllegalArgumentException(IllegalArgumentException e) {
         log.warn("IllegalArgumentException : " + e.getMessage());
         return ResponseEntity.status(400).contentType(MediaType.APPLICATION_JSON_UTF8)
                 .body("{\"message\":" + e.getMessage() + "}");

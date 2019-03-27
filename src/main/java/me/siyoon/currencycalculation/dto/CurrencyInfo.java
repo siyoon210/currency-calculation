@@ -5,7 +5,6 @@ import lombok.*;
 import java.util.Map;
 
 @Getter @Setter
-@NoArgsConstructor @AllArgsConstructor @Builder
 public class CurrencyInfo {
     private boolean success;
     private int timestamp;
