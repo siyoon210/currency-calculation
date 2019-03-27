@@ -14,21 +14,21 @@ import org.springframework.validation.BindException;
 public class ExceptionController {
     @ExceptionHandler(BindException.class)
     public ResponseEntity handleBindExceptionException(BindException e) {
-        log.warn("BindException : " + e.getMessage());
+        log.warn(e.getClass().getName() + " : " + e.getMessage());
         return ResponseEntity.status(400).contentType(MediaType.APPLICATION_JSON_UTF8)
                 .body("{\"message\":" + e.getMessage() + "}");
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity handleIllegalArgumentException(IllegalArgumentException e) {
-        log.warn("IllegalArgumentException : " + e.getMessage());
+        log.warn(e.getClass().getName() + " : " + e.getMessage());
         return ResponseEntity.status(400).contentType(MediaType.APPLICATION_JSON_UTF8)
                 .body("{\"message\":" + e.getMessage() + "}");
     }
 
     @ExceptionHandler(RestClientException.class)
     public ResponseEntity handleRestClientException(RestClientException e) {
-        log.warn("RestClientException : " + e.getMessage());
+        log.warn(e.getClass().getName() + " : " + e.getMessage());
         return ResponseEntity.status(500).contentType(MediaType.APPLICATION_JSON_UTF8)
                 .body("{\"message\":" + e.getMessage() + "}");
     }
@@ -36,7 +36,7 @@ public class ExceptionController {
     @ExceptionHandler(Error.class)
     public String handleError(Error error, Model model) {
         log.warn(error.getMessage());
-        model.addAttribute("errMessage", error.getMessage());
+        model.addAttribute(error.getClass().getName() + " : ", error.getMessage());
         return "error";
     }
 
