@@ -3,10 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <script src="/webjars/jquery/3.3.1-2/jquery.min.js"></script>
+    <script src="/webjars/Semantic-UI/2.4.1/semantic.min.js"></script>
+    <link rel="stylesheet" href="/webjars/Semantic-UI/2.4.1/semantic.min.css">
     <title>에러 페이지</title>
 </head>
-<body>
-<h1>에러 페이지</h1>
-<h2 th:text="${errMessage}"></h2>
+<body class="ui grid" style="margin: 30px">
+
+<div class="ui container">
+    <div class="ui form eight wide column">
+        <h1>에러 페이지 - 관리자에게 문의하세요</h1>
+        <h2 th:text="${errMessage}"></h2>
+    </div>
+</div>
 </body>
 </html>
