@@ -10,4 +10,5 @@ public class CurrencyInfo {
     private int timestamp;
     private String source;
     private Map<String, Double> quotes;
+    private Map<String, String> error;
 }
