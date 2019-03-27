@@ -38,7 +38,7 @@ public class CurrencyInfoAPIServiceImpl implements CurrencyInfoAPIService {
                     CurrencyInfo.class);
         }
 
-        checkValidCurrencyInfo();
+        checkCurrencyInfoValidation();
 
         return currencyInfo;
     }
@@ -52,7 +52,7 @@ public class CurrencyInfoAPIServiceImpl implements CurrencyInfoAPIService {
         return currentTimeSec - currencyInfo.getTimestamp() > updateFrequencySec;
     }
 
-    private void checkValidCurrencyInfo() {
+    private void checkCurrencyInfoValidation() {
         if (currencyInfo == null || !currencyInfo.isSuccess()) {
             throw new RestClientException("api 호출 실패");
         }

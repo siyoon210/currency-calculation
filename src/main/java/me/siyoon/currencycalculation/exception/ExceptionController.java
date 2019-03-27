@@ -7,22 +7,28 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.client.RestClientException;
+import org.springframework.validation.BindException;
 
 @ControllerAdvice
 @Slf4j
 public class ExceptionController {
+    @ExceptionHandler(BindException.class)
+    public void handleBindExceptionException(BindException e) {
+        handleIllegalArgumentException(e);
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity handleIllegalArgumentException(Exception e) {
+        log.warn("IllegalArgumentException : " + e.getMessage());
+        return ResponseEntity.status(400).contentType(MediaType.APPLICATION_JSON_UTF8)
+                .body("{\"message\":" + e.getMessage() + "}");
+    }
+
     @ExceptionHandler(RestClientException.class)
     public ResponseEntity handleRestClientException(RestClientException e) {
         log.warn("RestClientException : " + e.getMessage());
         return ResponseEntity.status(500).contentType(MediaType.APPLICATION_JSON_UTF8)
-                .body("{\"message\":"+e.getMessage()+"}");
-    }
-
-    @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity handleApiException(IllegalArgumentException e) {
-        log.warn("IllegalArgumentException : " + e.getMessage());
-        return ResponseEntity.status(400).contentType(MediaType.APPLICATION_JSON_UTF8)
-                .body("{\"message\":"+e.getMessage()+"}");
+                .body("{\"message\":" + e.getMessage() + "}");
     }
 
     @ExceptionHandler(Error.class)
@@ -33,9 +39,12 @@ public class ExceptionController {
     }
 
     @ExceptionHandler(Exception.class)
-    public String handleAllExceptions(Exception e, Model model) {
-        log.warn("예상치 못한 예외 발생 : " + e.getMessage());
-        model.addAttribute("errMessage", e.getMessage());
-        return "error";
+    public ResponseEntity handleAllExceptions(Exception e) {
+        log.warn("예상치 못한 예외 발생 : " + e.getMessage() + "-" + e.getClass().getName());
+        for (StackTraceElement stackTraceElement : e.getStackTrace()) {
+            log.warn(stackTraceElement.toString());
+        }
+        return ResponseEntity.status(500).contentType(MediaType.APPLICATION_JSON_UTF8)
+                .body("{\"message\":" + e.getMessage() + "}");
     }
 }
