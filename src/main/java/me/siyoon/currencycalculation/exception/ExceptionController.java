@@ -33,6 +33,13 @@ public class ExceptionController {
                 .body("{\"message\":" + e.getMessage() + "}");
     }
 
+    @ExceptionHandler(NullPointerException.class)
+    public ResponseEntity handleNullPointerException(NullPointerException e) {
+        log.warn(e.getClass().getName() + " : " + e.getMessage());
+        return ResponseEntity.status(400).contentType(MediaType.APPLICATION_JSON_UTF8)
+                .body("{\"message\":" + e.getMessage() + "}");
+    }
+
     @ExceptionHandler(Error.class)
     public String handleError(Error error, Model model) {
         log.warn(error.getMessage());
