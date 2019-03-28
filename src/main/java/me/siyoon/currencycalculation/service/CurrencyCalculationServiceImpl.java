@@ -17,11 +17,16 @@ public class CurrencyCalculationServiceImpl implements CurrencyCalculationServic
     public Double getExchangeRate(String sendingCountry, String receivingCountry) {
         CurrencyInfo currencyInfo = currencyInfoAPIService.getCurrencyInfo();
 
-        if (sendingCountry.equals(sourceCountry)) {
+        boolean isDefaultSourceCountry = sendingCountry.equals(sourceCountry);
+        if (isDefaultSourceCountry) {
             return currencyInfo.getQuotes().get(sendingCountry + receivingCountry);
         } else { //송금국가가 source 에 명시된 국가가 아닐 경우, 변환 연산하여 반환
-            return currencyInfo.getQuotes().get(sourceCountry + receivingCountry)
-                    / currencyInfo.getQuotes().get(sourceCountry + sendingCountry);
+            return calcNoneDefaultSourceCountry(sendingCountry, receivingCountry, currencyInfo);
         }
+    }
+
+    private double calcNoneDefaultSourceCountry(String sendingCountry, String receivingCountry, CurrencyInfo currencyInfo) {
+        return currencyInfo.getQuotes().get(sourceCountry + receivingCountry)
+                / currencyInfo.getQuotes().get(sourceCountry + sendingCountry);
     }
 }
